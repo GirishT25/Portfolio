@@ -55,7 +55,7 @@ export default function Navbar() {
             onClick={() => handleNav('#profile')}
             className="font-serif font-black text-xl tracking-tight hover:opacity-70 transition-opacity"
           >
-            AM.
+            GT.
           </button>
 
           {/* Desktop links */}
