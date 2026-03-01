@@ -5,8 +5,12 @@ import { Playfair_Display, DM_Mono, Instrument_Sans } from 'next/font/google'
 
 // Load Google Fonts via Next.js (no @import needed in CSS)
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400','700','900'] })
-const dmMono = DM_Mono({ subsets: ['latin'], weight: ['300','400','500'] })
-const instrument = Instrument_Sans({ subsets: ['latin'], weight: ['300','400','500','600'] })
+
+// DM Mono: only valid weights 400, 500, 700 (remove 300)
+const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400','500'] })
+
+// Instrument Sans: only valid weights 400, 500, 600, 700 (remove 300)
+const instrument = Instrument_Sans({ subsets: ['latin'], weight: ['400','500','600'] })
 
 export const metadata: Metadata = {
   title: 'Girish Thorat — Full-Stack Engineer',
