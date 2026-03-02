@@ -50,9 +50,8 @@ export default function ProfileSection() {
 
           {/* Bio */}
           <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl mb-10 animate-fade-up [animation-delay:0.3s]">
-            I craft scalable digital products at the intersection of engineering and design.
-            Six years shipping software that reaches millions — from fintech APIs to consumer
-            apps that delight.
+            I’m an aspiring Full-Stack Developer passionate about building modern, scalable web applications.
+Focused on clean architecture, performance, and crafting intuitive user experiences.
           </p>
 
           {/* CTAs */}
