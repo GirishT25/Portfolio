@@ -120,7 +120,7 @@ export default function Navbar() {
         </ul>
         <div className="mt-auto mb-12">
           <p className="font-mono text-xs tracking-widest text-zinc-400 dark:text-zinc-600 uppercase">
-            hello@alexmorgan.dev
+            thoratgirish286@gmail.com
           </p>
         </div>
       </div>
