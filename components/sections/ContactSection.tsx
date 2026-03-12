@@ -89,9 +89,9 @@ export default function ContactSection() {
             {/* Socials */}
             <div className="flex gap-4">
               {[
-                { icon: Github, label: 'GitHub', href: '#' },
-                { icon: Linkedin, label: 'LinkedIn', href: '#' },
-                { icon: Twitter, label: 'Twitter', href: '#' },
+                { icon: Github, label: 'GitHub', href: 'https://github.com/GirishT25' },
+                { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/girish-thorat-' },
+                { icon: Twitter, label: 'Twitter', href: 'https://x.com/Girish252004' },
               ].map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}

@@ -28,7 +28,6 @@ export const skillCategories = [
       "Tailwind CSS",
       "Framer Motion",
       "Three.js",
-      "WebGL",
     ],
   },
   {
@@ -59,7 +58,6 @@ export const skillCategories = [
     skills: [
       "OpenAI API",
       "LangChain",
-      "Pinecone",
       "Python",
       "Pandas",
       "RAG Systems",
@@ -70,19 +68,7 @@ export const skillCategories = [
     skills: [
       "Figma",
       "System Design",
-      "Prototyping",
-      "Accessibility",
       "Design Tokens",
-    ],
-  },
-  {
-    name: "Practices",
-    skills: [
-      "Agile / Scrum",
-      "TDD",
-      "Code Review",
-      "Technical Writing",
-      "DDD",
     ],
   },
 ]
@@ -261,27 +247,225 @@ This approach lets you focus on building features, not boilerplate.
   `,
 },
   {
-    id: 2,
-    slug: "building-rag-systems",
-    title: "Building RAG Systems That Work in Production",
-    excerpt:
-      "Lessons learned from deploying real retrieval-augmented generation systems.",
-    date: "Jan 28, 2025",
-    readTime: "12 min read",
-    category: "AI",
-    content: `
+  id: 2,
+  slug: "building-rag-systems",
+  title: "Building RAG Systems That Work in Production",
+  excerpt:
+    "Lessons learned from deploying real retrieval-augmented generation systems.",
+  date: "Jan 28, 2025",
+  readTime: "12 min read",
+  category: "AI",
+  content: `
+
+## Introduction
+
+Retrieval-Augmented Generation (RAG) has become one of the most effective ways to build AI systems that can answer questions using private or domain-specific data. Instead of relying only on the knowledge stored inside a language model, RAG systems retrieve relevant documents from a knowledge base and feed them into the model as context.
+
+While RAG demos often look impressive, building a **reliable production-grade RAG system** is much more challenging. It requires careful attention to data preparation, retrieval quality, evaluation, and monitoring.
+
+In this article, we will discuss practical lessons learned from deploying RAG systems in real-world applications.
+
+---
+
 ## RAG Isn't Magic
 
-Production RAG is mostly data engineering.
+Many people assume that RAG automatically produces accurate answers once you connect a vector database to an LLM. In reality, **RAG is mostly a data engineering problem**.
 
-Key lessons:
+The quality of your results depends heavily on:
 
-- Chunk properly (256–512 tokens)
-- Use reranking
-- Build evaluation harness
-- Track retrieval recall
+- How your documents are structured
+- How you chunk your data
+- The embedding model used
+- Retrieval strategy
+- Prompt design
+- Evaluation pipeline
 
-Production systems require monitoring and iteration.
-`,
-  },
+If any of these pieces are weak, the overall system performance drops.
+
+---
+
+## How a RAG System Works
+
+A typical RAG pipeline has four main stages:
+
+1. **Document Processing**
+   - Collect documents (PDFs, docs, webpages, etc.)
+   - Clean and preprocess text
+   - Split into chunks
+
+2. **Embedding & Indexing**
+   - Convert chunks into vector embeddings
+   - Store them in a vector database (Pinecone, FAISS, Weaviate, etc.)
+
+3. **Retrieval**
+   - Convert the user query into an embedding
+   - Retrieve top-k relevant chunks
+
+4. **Generation**
+   - Send the retrieved chunks + user query to the LLM
+   - Generate the final response
+
+---
+
+## Chunking Strategy Matters
+
+Chunking is one of the most important decisions in a RAG pipeline.
+
+If chunks are **too large**:
+- Retrieval becomes less precise
+- Irrelevant information gets included
+
+If chunks are **too small**:
+- Context is lost
+- The model may not understand relationships
+
+A common sweet spot is:
+
+- **256–512 tokens per chunk**
+- **20–50 token overlap**
+
+Example chunking strategy:
+
+- Split by sections
+- Maintain semantic boundaries
+- Add metadata (title, source, page number)
+
+This greatly improves retrieval accuracy.
+
+---
+
+## Use Reranking for Better Retrieval
+
+Vector similarity search alone often returns results that are only loosely related to the query.
+
+A better approach is:
+
+1. Retrieve **top 20 documents using vector search**
+2. Pass them to a **reranker model**
+3. Select the **top 3–5 most relevant chunks**
+
+Rerankers evaluate query-document relevance more precisely than embeddings alone.
+
+Benefits:
+
+- Higher precision
+- Reduced hallucination
+- Better final answers
+
+---
+
+## Prompt Engineering for RAG
+
+Your prompt should clearly instruct the model to use retrieved context.
+
+Example structure:
+
+System Prompt:
+"You are an assistant that answers questions strictly using the provided context."
+
+User Prompt:
+
+Context:
+<retrieved_documents>
+
+Question:
+<user_question>
+
+Instructions:
+- If the answer is not in the context, say "I don't know".
+
+This reduces hallucinations significantly.
+
+---
+
+## Build an Evaluation Harness
+
+Many teams skip evaluation and rely on manual testing. This does not scale.
+
+Instead, build an **evaluation harness** with:
+
+- A dataset of test queries
+- Ground truth answers
+- Automated scoring
+
+Metrics to track:
+
+- **Retrieval Recall**
+- **Answer Accuracy**
+- **Faithfulness**
+- **Latency**
+
+Tools often used:
+
+- Ragas
+- LangSmith
+- Custom evaluation pipelines
+
+---
+
+## Track Retrieval Recall
+
+One critical metric in RAG systems is **retrieval recall**.
+
+This measures whether the correct document was retrieved in the top results.
+
+Example:
+
+If the correct answer exists in document #42 but the retriever never returns it, the LLM cannot answer correctly.
+
+Improving recall involves:
+
+- Better chunking
+- Better embeddings
+- Hybrid search (vector + keyword)
+- Metadata filtering
+
+---
+
+## Monitor Your Production System
+
+Production RAG systems require continuous monitoring.
+
+Things to track:
+
+- Query success rate
+- Retrieval latency
+- LLM response time
+- Hallucination rate
+- Token usage and cost
+
+Observability helps you detect issues early.
+
+---
+
+## Common Mistakes in RAG Systems
+
+Some common problems include:
+
+- Overly large document chunks
+- No evaluation dataset
+- Using only vector search
+- Ignoring metadata filtering
+- Not monitoring hallucinations
+
+Avoiding these mistakes can dramatically improve system reliability.
+
+---
+
+## Final Thoughts
+
+RAG systems are powerful, but they require careful engineering. The key takeaway is that **retrieval quality determines answer quality**.
+
+Focus on:
+
+- High-quality data pipelines
+- Effective chunking strategies
+- Strong retrieval and reranking
+- Automated evaluation
+- Continuous monitoring
+
+With these practices in place, you can build RAG systems that perform reliably in production environments.
+
+`
+},
 ]
