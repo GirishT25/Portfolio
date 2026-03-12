@@ -80,8 +80,8 @@ export const skillCategories = [
 export const projects = [
   {
   id: 1,
-  num: "01",
-  year: "2024",
+  num: "10",
+  year: "2025",
   name: "Dev Event Platform",
   description:
     "Full-stack event management platform enabling users to browse, view, and manage events dynamically, with RESTful APIs and scalable architecture.",
@@ -91,8 +91,8 @@ export const projects = [
 },
 {
   id: 2,
-  num: "02",
-  year: "2024",
+  num: "12",
+  year: "2025",
   name: "Typing Speed Web App",
   description:
     "Adaptive web application to track typing speed and accuracy in real-time, with user authentication, persistent storage, and CI/CD deployment.",
@@ -102,8 +102,8 @@ export const projects = [
 },
 {
   id: 3,
-  num: "03",
-  year: "2024",
+  num: "12",
+  year: "2025",
   name: "Streamfiy",
   description:
     "Real-time language learning and collaboration platform with instant messaging using WebSockets, enabling peer-to-peer communication and scalable full-stack architecture.",
@@ -113,8 +113,8 @@ export const projects = [
 },
 {
   id: 4,
-  num: "04",
-  year: "2024",
+  num: "11",
+  year: "2025",
   name: "Gemini-Clone",
   description:
     "Front-end clone of Google’s Gemini AI assistant featuring responsive chat UI, dark/light mode, modular React components, and ready for AI API integration.",
